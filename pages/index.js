@@ -17,7 +17,7 @@ const geistMono = Geist_Mono({
 
 export default function Home() {
 
-    const {input, setInput} = useFormulaStore();
+    const {input, setInput, addToken, tokens} = useFormulaStore();
     const debouncedInput = useDebounce(input, 300);
 
     const {data: allSuggestions = [], isLoading, isError} = useQuery({
@@ -33,13 +33,17 @@ export default function Home() {
         : [];
 
     const handleChange = (e) => setInput(e.target.value);
+    const handleSelect = (item) => addToken(item.name);
 
     return (
         <div
             className={`${geistSans.className} ${geistMono.className} grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]`}
         >
-            <div className="relative w-full max-w-md">
+            <div className="relative w-full max-w-lg">
                 <div className="flex flex-wrap items-center border border-gray-300 p-2 rounded-md gap-1">
+                    {tokens.map((t, i) => (
+                        <span key={i} style={{ margin: 2, padding: '2px 6px', borderRadius: 4 }}>{t}</span>
+                    ))}
                     <input
                         value={input}
                         onChange={handleChange}
@@ -59,6 +63,7 @@ export default function Home() {
                             {filteredSuggestions.map((suggestion) => (
                                 <li
                                     key={suggestion.id}
+                                    onClick={() => handleSelect(suggestion)}
                                     className="px-3 py-2 hover:bg-gray-100 cursor-pointer text-sm"
                                 >
                                     {suggestion.name}
