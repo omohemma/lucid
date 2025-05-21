@@ -17,7 +17,7 @@ const geistMono = Geist_Mono({
 
 export default function Home() {
 
-    const {input, setInput, addTag, tags} = useFormulaStore();
+    const {input, setInput, addTag, tags, removeLastTag} = useFormulaStore();
     const debouncedInput = useDebounce(input, 300);
 
     const {data: allSuggestions = [], isLoading, isError} = useQuery({
@@ -34,6 +34,11 @@ export default function Home() {
 
     const handleChange = (e) => setInput(e.target.value);
     const handleSelect = (item) => addTag(item);
+    const handleKeyDown = (e) => {
+        if (e.key === 'Backspace' && input === '') {
+            removeLastTag();
+        }
+    };
 
     return (
         <div
@@ -47,6 +52,7 @@ export default function Home() {
                     <input
                         value={input}
                         onChange={handleChange}
+                        onKeyDown={handleKeyDown}
                         className="flex-1 outline-none bg-transparent text-sm px-1 py-1"
                         placeholder="Type to search..."
                     />
