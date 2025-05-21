@@ -1,5 +1,7 @@
 import {Geist, Geist_Mono} from "next/font/google";
 import {useFormulaStore} from "@/store";
+import {fetchAllSuggestions} from "@/pages/api";
+import {useQuery} from "@tanstack/react-query";
 
 
 const geistSans = Geist({
@@ -13,9 +15,15 @@ const geistMono = Geist_Mono({
 });
 
 export default function Home() {
-
     const handleChange = (e) => setInput(e.target.value);
     const {input, setInput} = useFormulaStore();
+
+    const {data: allSuggestions = [], isLoading, isError} = useQuery({
+        queryKey: ['autocomplete-all'],
+        queryFn: fetchAllSuggestions,
+        staleTime: 60 * 1000,
+    });
+
     return (
         <div
             className={`${geistSans.className} ${geistMono.className} grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]`}
