@@ -26,7 +26,10 @@ export default function Home() {
         staleTime: 60 * 1000,
     });
 
-    const filteredSuggestions = debouncedInput
+    const isOperand = /^[+\-*/^()]$/.test(debouncedInput);
+    const isNaturalNumber = /^\d+$/.test(debouncedInput);
+
+    const filteredSuggestions = debouncedInput && !isOperand && !isNaturalNumber
         ? allSuggestions.filter((item) =>
             item.name.toLowerCase().includes(debouncedInput.toLowerCase())
         )
@@ -47,7 +50,7 @@ export default function Home() {
             <div className="relative w-full max-w-lg">
                 <div className="flex flex-wrap items-center border border-gray-300 p-2 rounded-md gap-1">
                     {tags.map((tag, index) => (
-                        <span key={index} style={{ margin: 2, padding: '2px 6px', borderRadius: 4 }}>{tag.name}</span>
+                        <span key={index} style={{margin: 2, padding: '2px 6px', borderRadius: 4}}>{tag.name}</span>
                     ))}
                     <input
                         value={input}
@@ -56,7 +59,7 @@ export default function Home() {
                         className="flex-1 outline-none bg-transparent text-sm px-1 py-1"
                         placeholder="Type to search..."
                     />
-                    {debouncedInput && (
+                    {debouncedInput &&  (
                         <ul className={`absolute z-10 w-full bg-white border border-gray-300 rounded-md shadow-sm max-h-48 overflow-auto ${
                             filteredSuggestions.length > 0 ? 'mt-64' : 'mt-24'
                         }`}>
