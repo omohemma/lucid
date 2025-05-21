@@ -17,7 +17,7 @@ const geistMono = Geist_Mono({
 
 export default function Home() {
 
-    const {input, setInput, addToken, tokens} = useFormulaStore();
+    const {input, setInput, addTag, tags} = useFormulaStore();
     const debouncedInput = useDebounce(input, 300);
 
     const {data: allSuggestions = [], isLoading, isError} = useQuery({
@@ -33,7 +33,7 @@ export default function Home() {
         : [];
 
     const handleChange = (e) => setInput(e.target.value);
-    const handleSelect = (item) => addToken(item.name);
+    const handleSelect = (item) => addTag(item);
 
     return (
         <div
@@ -41,8 +41,8 @@ export default function Home() {
         >
             <div className="relative w-full max-w-lg">
                 <div className="flex flex-wrap items-center border border-gray-300 p-2 rounded-md gap-1">
-                    {tokens.map((t, i) => (
-                        <span key={i} style={{ margin: 2, padding: '2px 6px', borderRadius: 4 }}>{t}</span>
+                    {tags.map((tag, index) => (
+                        <span key={index} style={{ margin: 2, padding: '2px 6px', borderRadius: 4 }}>{tag.name}</span>
                     ))}
                     <input
                         value={input}
