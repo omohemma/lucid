@@ -1,40 +1,51 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
+# 🧮 Formula Input Component
 
-## Getting Started
+A custom input field that lets users build formulas using **autocomplete tags**, **natural numbers**, and **operands**, with support for:
 
-First, run the development server:
+* Tag-based structure (not plain text)
+* Deleting tags with backspace
+* Autocomplete dropdown (powered by React Query)
+
+---
+
+## ✨ Features
+
+* 🔢 **Natural number input** (e.g., `12`, `100`)
+* ➕ **Mathematical operators**: `+`, `-`, `*`, `/`, `(`, `)`
+* 🔖 **Autocomplete for dynamic tags** (e.g., `Amount`, `Tax`)
+* 🧠 **Debounced API fetch** using `react-query`
+* 🗑️ **Backspace to delete last tag** when input is empty
+* 🎨 **TailwindCSS-based UI**
+
+---
+
+## 📦 Stack
+
+* [React](https://reactjs.org)
+* [Zustand](https://github.com/pmndrs/zustand) – local state management
+* [React Query](https://tanstack.com/query) – autocomplete suggestions
+* [TailwindCSS](https://tailwindcss.com) – styling
+
+---
+
+## 🔧 Setup
 
 ```bash
+git clone https://github.com/omohemma/lucid
+cd lucid
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
 
-[API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+## 🔗 Autocomplete API
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) instead of React pages.
+Currently uses this mock endpoint:
 
-This project uses [`next/font`](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+https://652f91320b8d8ddac0b2b62b.mockapi.io/autocomplete
+```
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn-pages-router) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/pages/building-your-application/deploying) for more details.
+> ⚠️ The API does not support filtering, so all data is fetched once and filtered on the client.
