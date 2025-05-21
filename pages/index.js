@@ -2,6 +2,7 @@ import {Geist, Geist_Mono} from "next/font/google";
 import {useFormulaStore} from "@/store";
 import {fetchAllSuggestions} from "@/pages/api";
 import {useQuery} from "@tanstack/react-query";
+import {useDebounce} from "@/hooks/useDebounce";
 
 
 const geistSans = Geist({
@@ -17,6 +18,7 @@ const geistMono = Geist_Mono({
 export default function Home() {
 
     const {input, setInput} = useFormulaStore();
+    const debouncedInput = useDebounce(input, 300);
 
     const {data: allSuggestions = [], isLoading, isError} = useQuery({
         queryKey: ['autocomplete-all'],
@@ -24,9 +26,9 @@ export default function Home() {
         staleTime: 60 * 1000,
     });
 
-    const filteredSuggestions = input
+    const filteredSuggestions = debouncedInput
         ? allSuggestions.filter((item) =>
-            item.name.toLowerCase().includes(input.toLowerCase())
+            item.name.toLowerCase().includes(debouncedInput.toLowerCase())
         )
         : [];
 
@@ -44,7 +46,7 @@ export default function Home() {
                         className="flex-1 outline-none bg-transparent text-sm px-1 py-1"
                         placeholder="Type to search..."
                     />
-                    {input && (
+                    {debouncedInput && (
                         <ul className={`absolute z-10 w-full bg-white border border-gray-300 rounded-md shadow-sm max-h-48 overflow-auto ${
                             filteredSuggestions.length > 0 ? 'mt-64' : 'mt-24'
                         }`}>
